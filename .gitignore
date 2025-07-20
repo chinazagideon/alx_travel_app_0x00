@@ -37,11 +37,11 @@ media/
 staticfiles/
 
 # Virtual Environment
-# venv/
-# env/
-# ENV/
-# .venv/
-# .env/
+venv/
+env/
+ENV/
+.venv/
+.env/
 
 # IDE
 .vscode/
