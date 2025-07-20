@@ -3,7 +3,7 @@
 Serializers for the listings app
 """
 from rest_framework import serializers
-from .models import Listing
+from .models import Listing, Booking
 from users.serializers import UserDetailSerializer
 from addresses.serializers import AddressDetailSerializer
 from reviews.serializers import ReviewDetailSerializer
@@ -26,7 +26,6 @@ class ListingSerializer(serializers.ModelSerializer):
     """
     reviews = ReviewDetailSerializer(many=True, read_only=True)
     reviews_count = serializers.SerializerMethodField(read_only=True)
-    read_only_fields = ['reviews', 'reviews_count']
 
     def get_reviews_count(self, obj):
         """
@@ -37,7 +36,24 @@ class ListingSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Listing
+        read_only_fields = ['reviews', 'reviews_count']
         fields = [*field_list, 'reviews', 'reviews_count']
+
+class ListingBookingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the listing booking
+    """
+    class Meta:
+        model = Booking
+        fields = ['id', 'listing', 'user', 'check_in', 'check_out', 'status']
+class BookingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the booking
+    """
+    class Meta:
+        model = Booking
+        fields = ['id', 'listing', 'user', 'check_in', 'check_out', 'status']
+
 class ListingDetailSerializer(serializers.ModelSerializer):
     """
     Serializer for the listing detail
@@ -49,3 +65,4 @@ class ListingDetailSerializer(serializers.ModelSerializer):
         model = Listing
         fields = field_list
         depth = 1
+        read_only_fields = ['reviews', 'reviews_count']
